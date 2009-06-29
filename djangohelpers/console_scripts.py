@@ -1,18 +1,18 @@
-__doc__ = """
-    Generates a new template tag and writes it to stdout.
+"""
+Generates a new template tag and writes it to stdout.
 
-    Usage:
-    maketemplatetag template_tag_name callableToExecute a=b c=d e=f
+Usage:
+maketemplatetag template_tag_name callableToExecute a=b c=d e=f
 
-    e.g.
-    `maketemplatetag get_relevant_foos getFoos for=user in=location`
-    will generate a template tag that can be used like:
-    {% get_relevant_foos for user in location %}
-    
-    defining `getFoos` is up to you; after the code has been generated
-    you'll see what you need to do much more easily than I can explain
-    in documentation.
-    """
+e.g.
+`maketemplatetag get_relevant_foos getFoos for=user in=location`
+will generate a template tag that can be used like:
+{% get_relevant_foos for user in location %}
+
+defining `getFoos` is up to you; after the code has been generated
+you'll see what you need to do much more easily than I can explain
+in documentation.
+"""
 
 def subclass_templatetag(tag_name, query, query_args=None):
     classname = ''.join(i.title() for i in tag_name.split('_'))
