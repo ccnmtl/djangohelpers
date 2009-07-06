@@ -26,7 +26,7 @@ class rendered_with(object):
                                           mimetype=self.mimetype)
             else:
                 return render_to_response(self.template_name, items, 
-                                          context_instance=RequestContext(request),
+                                          context_instance=RequestContext(request))
 
         return rendered_func
 
