@@ -3,17 +3,18 @@ import sys, os
 
 version = '0.1'
 
+long_description = open('README.txt').read()
+
 setup(name='djangohelpers',
       version=version,
       description="a collection of useful middleware, template tags, etc",
-      long_description="""\
-""",
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      long_description=long_description,
+      classifiers=[], 
       keywords='',
-      author='',
-      author_email='',
+      author='Ethan Jucovy',
+      author_email='ejucovy@gmail.com',
       url='',
-      license='',
+      license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
