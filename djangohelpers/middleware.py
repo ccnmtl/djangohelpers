@@ -9,11 +9,8 @@ class HttpDeleteMiddleware(object):
         if request.method == "POST":
             request.method = "DELETE"
 
-def is_anonymous_path(current_path):
-    if not hasattr(settings,'ANONMYOUS_PATHS'):
-        return False
-
-    for exempt_path in settings.COURSEAFFILS_EXEMPT_PATHS:
+def path_matches(current_path, paths_to_match):
+    for exempt_path in paths_to_match:
         try:
             if current_path.startswith(exempt_path):
                 return True
@@ -30,7 +27,8 @@ from django.http import HttpResponseRedirect
 class AuthRequirementMiddleware(object):
     def process_request(self, request):
         path = urlquote(request.get_full_path())           
-        if is_anonymous_path(path):
+
+        if path_matches(path, getattr(settings, 'ANONYMOUS_PATHS', [])):
             return None
 
         if request.user.is_authenticated():
