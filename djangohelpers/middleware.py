@@ -26,12 +26,12 @@ from django.utils.http import urlquote
 from django.http import HttpResponseRedirect
 class AuthRequirementMiddleware(object):
     def process_request(self, request):
+        if request.user.is_authenticated():
+            return None
+
         path = urlquote(request.get_full_path())           
 
         if path_matches(path, getattr(settings, 'ANONYMOUS_PATHS', [])):
-            return None
-
-        if request.user.is_authenticated():
             return None
 
         return HttpResponseRedirect('%s?%s=%s' % (
