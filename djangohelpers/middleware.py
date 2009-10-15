@@ -38,3 +38,37 @@ class AuthRequirementMiddleware(object):
                 settings.LOGIN_URL,
                 REDIRECT_FIELD_NAME,
                 path))
+
+from django.http import HttpResponseForbidden
+
+class GroupRequirementMiddleware(object):
+    def process_request(self, request):
+        path = urlquote(request.get_full_path())
+
+        permission_locks = getattr(settings, 'GROUP_REQUIREMENTS_PER_PATH', {})
+        first_match = path_matches(path, permission_locks.keys())
+
+        if not first_match:
+            return None
+
+        required_permission = permission_locks[first_match]
+        from django.contrib.auth.models import Group
+
+        required_permission = Group.objects.get(name=required_permission)
+
+        if required_permission in request.user.groups.all():
+            return None
+
+        if request.user.is_anonymous():
+            return HttpResponseRedirect('%s?%s=%s' % (
+                    settings.LOGIN_URL,
+                    REDIRECT_FIELD_NAME,
+                    path))
+
+
+        location = getattr(settings, 'GROUP_REQUIREMENTS_REDIRECT', None)
+        if location:
+            return HttpResponseRedirect(location)
+
+        return HttpResponseForbidden("Insufficient priviledges")
+        
