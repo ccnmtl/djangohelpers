@@ -1,4 +1,11 @@
+from django.conf import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.models import Group
+from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.utils.http import urlquote
+
 
 class HttpDeleteMiddleware(object):
     def process_request(self, request):
@@ -20,10 +27,6 @@ def path_matches(current_path, paths_to_match):
 
     return False
 
-from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.utils.http import urlquote
-from django.http import HttpResponseRedirect
 class AuthRequirementMiddleware(object):
     def process_request(self, request):
         if request.user.is_authenticated():
@@ -39,8 +42,6 @@ class AuthRequirementMiddleware(object):
                 REDIRECT_FIELD_NAME,
                 path))
 
-from django.http import HttpResponseForbidden
-
 class GroupRequirementMiddleware(object):
     def process_request(self, request):
         path = urlquote(request.get_full_path())
@@ -52,7 +53,6 @@ class GroupRequirementMiddleware(object):
             return None
 
         required_permission = permission_locks[first_match]
-        from django.contrib.auth.models import Group
 
         required_permission = Group.objects.get(name=required_permission)
 
