@@ -20,6 +20,22 @@ console scripts
 middleware
 ==========
 
+ djangohelpers.middleware.AuthRequirementMiddleware
+ --------------------------------------------------
+
+ If enabled, it will intercept all requests that are not logged in, and
+ redirect them to the login view.
+
+ You can specify a list of anonymously-accessible URL paths (exempt from
+ this middleware) with an ANONYMOUS_PATHS list in your settings.py file.
+
+ These paths can be strings or regexes.
+
+ Strings will be treated as URL PREFIXES to match against.
+
+ Regexes will be matched against the URL directly.
+
+
  djangohelpers.middleware.HttpDeleteMiddleware
  ---------------------------------------------
 
