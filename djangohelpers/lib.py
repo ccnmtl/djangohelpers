@@ -20,6 +20,8 @@ class rendered_with(object):
                 # for explicit control of rendering, or redirects, etc
                 return response
             items = response
+            items.setdefault('template_name',self.template_name)
+            items.setdefault('controller_name','%s/%s'%(func.__module__,func.__name__) )
             if self.mimetype is not None:
                 return render_to_response(self.template_name, items, 
                                           context_instance=RequestContext(request),
