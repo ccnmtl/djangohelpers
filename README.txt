@@ -47,8 +47,8 @@ middleware
 view decorators
 ===============
 
- djangohelpers.lib.allow_http
- ----------------------------
+ djangohelpers.allow_http
+ ------------------------
 
    @allow_http("GET", "DELETE")
    def my_view(request, ...)
@@ -57,8 +57,8 @@ view decorators
  and all other requests will return HTTP 405 Method Not Allowed.
 
 
- djangohelpers.lib.rendered_with
- -------------------------------
+ djangohelpers.rendered_with
+ ---------------------------
 
    @rendered_with('foo/bar.html')
    def my_view(request, ...)
