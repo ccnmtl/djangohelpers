@@ -57,3 +57,11 @@ def getitem(dict, item):
     except KeyError:
         return ''
 register.filter('getitem', getitem)
+
+def lessthan(a, b):
+    return a < b
+register.filter('lessthan', lessthan)
+
+def greaterthan(a, b):
+    return a > b
+register.filter('greaterthan', greaterthan)

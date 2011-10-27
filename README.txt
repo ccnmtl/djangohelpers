@@ -90,5 +90,8 @@ template tags
 
  {{my_dict|getitem:'b'}}
 
+ {{value|lessthan:12}}
+
+ {{value|greaterthan:12}}
 
 Originally developed at the Columbia Center for New Media Teaching & Learning.
