@@ -35,12 +35,18 @@ def qsify(_dict):
     converts a dict into a query string:
      {{my_dict|qsify}}
     """
-    _dict = dict(_dict)
     qs = '?'
-    for key, value in _dict.items():
+    try:
+        iterator = _dict.iterlists()
+    except AttributeError:
+        iterator = _dict.iteritems()
+
+    for key, value in iterator:
         if isinstance(value, list):
-            value = value[0]
-        qs += '%s=%s&' % (key, value)
+            for v in value:
+                qs += '%s=%s&' % (key, v)
+        else:
+            qs += '%s=%s&' % (key, value)
     qs=qs.rstrip("&")
     return qs
 register.filter('qsify', qsify)
