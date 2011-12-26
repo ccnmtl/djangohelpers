@@ -1,6 +1,11 @@
 from django.http import HttpResponseNotAllowed
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+try:
+    from django.template.response import TemplateResponse
+except ImportError:
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
+    def TemplateResponse(request, template, context=None, mimetype=None, status=None, content_type=None, current_app=None):
+        return render_to_response(template, context, context_instance=RequestContext(request), mimetype=content_type or mimetype)
 
 class rendered_with(object):
     """ use like
@@ -22,14 +27,7 @@ class rendered_with(object):
             items = response
             items.setdefault('template_name',self.template_name)
             items.setdefault('controller_name','%s/%s'%(func.__module__,func.__name__) )
-            if self.mimetype is not None:
-                return render_to_response(self.template_name, items, 
-                                          context_instance=RequestContext(request),
-                                          mimetype=self.mimetype)
-            else:
-                return render_to_response(self.template_name, items, 
-                                          context_instance=RequestContext(request))
-
+            return TemplateResponse(request, self.template_name, items, mimetype=self.mimetype)
         return rendered_func
 
 class allow_http(object):
