@@ -47,3 +47,10 @@ class allow_http(object):
             return func(request, *args, **kwargs)
         return inner
 
+def register_admin(model):
+    from django.contrib import admin
+    
+    class Admin(admin.ModelAdmin):
+        list_display = [f.name for f in model._meta.fields]
+
+    admin.site.register(model, Admin)
