@@ -71,3 +71,11 @@ register.filter('lessthan', lessthan)
 def greaterthan(a, b):
     return a > b
 register.filter('greaterthan', greaterthan)
+
+def to_json(a):
+    import json
+    try:
+        return json.dumps(a)
+    except (ValueError, TypeError):
+        return ''
+register.filter('to_json', to_json)
