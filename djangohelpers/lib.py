@@ -47,10 +47,10 @@ class allow_http(object):
             return func(request, *args, **kwargs)
         return inner
 
-def register_admin(model):
+def register_admin(model, exclude=[], also=[]):
     from django.contrib import admin
-    
+
     class Admin(admin.ModelAdmin):
-        list_display = [f.name for f in model._meta.fields]
+        list_display = [f.name for f in model._meta.fields if f.name not in exclude] + also
 
     admin.site.register(model, Admin)
