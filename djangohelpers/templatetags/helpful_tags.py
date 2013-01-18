@@ -79,3 +79,13 @@ def to_json(a):
     except (ValueError, TypeError):
         return ''
 register.filter('to_json', to_json)
+
+def ensure_list(a):
+    if a is None:
+        return []
+    if isinstance(a, basestring):
+        return [a]
+    if not hasattr(a, "__getitem__") and not hasattr(a, "__iter__"):
+        return [a]
+    return a
+register.filter('ensure_list', ensure_list)
