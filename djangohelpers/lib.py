@@ -49,8 +49,10 @@ class allow_http(object):
 
 def register_admin(model, exclude=[], also=[]):
     from django.contrib import admin
+    from djangohelpers.export_action import admin_list_export
 
     class Admin(admin.ModelAdmin):
         list_display = [f.name for f in model._meta.fields if f.name not in exclude] + also
+        actions = [admin_list_export]
 
     admin.site.register(model, Admin)
