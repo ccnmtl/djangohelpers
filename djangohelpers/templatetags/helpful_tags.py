@@ -64,6 +64,14 @@ def getitem(dict, item):
         return ''
 register.filter('getitem', getitem)
 
+def _getattr(obj, attr):
+    """ my_obj|getattr:'b' """
+    try:
+        return getattr(obj, attr) or ''
+    except AttributeError:
+        return ''
+register.filter('getattr', _getattr)
+
 def lessthan(a, b):
     return a < b
 register.filter('lessthan', lessthan)
