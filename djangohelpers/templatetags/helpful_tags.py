@@ -59,7 +59,7 @@ register.filter('split', split)
 def getitem(dict, item):
     """ my_dict|getitem:'b' """
     try:
-        return dict[item]
+        return dict.get(item) or ''
     except KeyError:
         return ''
 register.filter('getitem', getitem)
