@@ -28,6 +28,7 @@ class rendered_with(object):
             items.setdefault('template_name',self.template_name)
             items.setdefault('controller_name','%s/%s'%(func.__module__,func.__name__) )
             return TemplateResponse(request, self.template_name, items, mimetype=self.mimetype)
+        rendered_func.__name__ = func.__name__
         return rendered_func
 
 class allow_http(object):
@@ -45,6 +46,7 @@ class allow_http(object):
             if request.method not in self.methods:
                 return HttpResponseNotAllowed(self.methods)
             return func(request, *args, **kwargs)
+        inner.__name__ = func.__name__
         return inner
 
 def register_admin(model, exclude=[], also=[]):
