@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.utils.http import urlquote
-
+from djangohelpers.permissions import LazyPermissions
 
 class HttpDeleteMiddleware(object):
     def process_request(self, request):
@@ -71,4 +71,7 @@ class GroupRequirementMiddleware(object):
             return HttpResponseRedirect(location)
 
         return HttpResponseForbidden("Insufficient priviledges")
-        
+
+class PermissionsMiddleware(object):
+    def process_request(self, request):
+        setattr(request, 'PERMISSIONS', LazyPermissions(request))
