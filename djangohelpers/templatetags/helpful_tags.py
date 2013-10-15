@@ -97,3 +97,7 @@ def ensure_list(a):
         return [a]
     return a
 register.filter('ensure_list', ensure_list)
+
+@register.filter
+def joined_by(list, string):
+    return string.join(str(i) for i in list)
