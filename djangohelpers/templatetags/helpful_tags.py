@@ -101,3 +101,8 @@ register.filter('ensure_list', ensure_list)
 @register.filter
 def joined_by(list, string):
     return string.join(str(i) for i in list)
+
+@register.filter
+def add_numbers(a, b):
+    return a + b
+
