@@ -5,7 +5,7 @@ except ImportError:
     from django.shortcuts import render_to_response
     from django.template import RequestContext
     def TemplateResponse(request, template, context=None, mimetype=None, status=None, content_type=None, current_app=None):
-        return render_to_response(template, context, context_instance=RequestContext(request), mimetype=content_type or mimetype)
+        return render_to_response(template, context, context_instance=RequestContext(request), content_type=content_type or mimetype)
 
 class rendered_with(object):
     """ use like
