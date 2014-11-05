@@ -27,7 +27,7 @@ class rendered_with(object):
             items = response
             items.setdefault('template_name',self.template_name)
             items.setdefault('controller_name','%s/%s'%(func.__module__,func.__name__) )
-            return TemplateResponse(request, self.template_name, items, mimetype=self.mimetype)
+            return TemplateResponse(request, self.template_name, items, content_type=self.mimetype)
         rendered_func.__name__ = func.__name__
         return rendered_func
 
