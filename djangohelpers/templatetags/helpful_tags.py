@@ -49,7 +49,7 @@ def qsify(_dict):
     try:
         iterator = _dict.iterlists()
     except AttributeError:
-        iterator = _dict.iteritems()
+        iterator = iter(list(_dict.items()))
 
     for key, value in iterator:
         if isinstance(value, list):
