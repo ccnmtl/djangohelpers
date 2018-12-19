@@ -5,10 +5,12 @@ from django.http import HttpResponse
 from django.template.defaultfilters import slugify
 from django.utils.encoding import smart_str
 
+
 def admin_list_export(modeladmin, request, queryset):
     model = queryset.model
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=%s.csv' % slugify(model.__name__)
+    response['Content-Disposition'] = \
+        'attachment; filename=%s.csv' % slugify(model.__name__)
     writer = csv.writer(response)
     model_admin = admin.site._registry[model]
     list_display = getattr(model_admin, 'csv_export_fields', None) or \

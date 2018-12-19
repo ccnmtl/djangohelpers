@@ -1,0 +1,4 @@
+0.20
+=====
+
+* Added Python 3 support and Travis testing

@@ -16,13 +16,17 @@ class AuthenticationMiddleware(object):
         authorization = environ.get('HTTP_AUTHORIZATION', None)
         if not authorization:
             return self.__unauthorized(start_response)
-        
+
         (method, authentication) = authorization.split(' ', 1)
         if 'basic' != method.lower():
             return self.__unauthorized(start_response)
-        
-        request_username, request_password = authentication.strip().decode('base64').split(':', 1)
-        if self.username == request_username and self.password == request_password:
+
+        request_username, request_password = authentication.strip().decode(
+            'base64').split(':', 1)
+        if (
+                self.username == request_username and
+                self.password == request_password
+        ):
             return self.app(environ, start_response)
-        
+
         return self.__unauthorized(start_response)

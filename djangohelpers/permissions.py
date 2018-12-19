@@ -1,5 +1,6 @@
-from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseForbidden
+from six import string_types
+
 
 class LazyPermissions(object):
     def __init__(self, request):
@@ -10,12 +11,15 @@ class LazyPermissions(object):
         if self.request.user.is_superuser:
             return True
         if self._groups is None:
-            self._groups = list(self.request.user.groups.values_list("name", flat=True))
+            self._groups = list(self.request.user.groups.values_list(
+                "name", flat=True))
         return permission in self._groups
 
+
 def authorize(permissions):
-    if isinstance(permissions, basestring):
+    if isinstance(permissions, string_types):
         permissions = [permissions]
+
     def wrapper(func):
         def inner(request, *args, **kw):
             for permission in permissions:

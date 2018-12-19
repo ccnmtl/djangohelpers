@@ -14,13 +14,16 @@ you'll see what you need to do much more easily than I can explain
 in documentation.
 """
 
+
 def subclass_templatetag(tag_name, query, query_args=None):
     classname = ''.join(i.title() for i in tag_name.split('_'))
-    prep_dict = "{" + ', '.join('"%s":"%s"' % tuple(arg.split('=')) for arg in query_args) + "}"
+    prep_dict = "{" + ', '.join('"%s":"%s"' % tuple(arg.split('='))
+                                for arg in query_args) + "}"
     query_args = [arg.split('=')[1] for arg in query_args]
     init_args = ', '.join(query_args)
 
-    unfolded_dict = ', '.join('%s=%s' % (arg,arg) for arg in query_args)
+    unfolded_dict = ', '.join('%s=%s' % (arg, arg)
+                              for arg in query_args)
 
     subclass = """
 from django import template
@@ -42,13 +45,15 @@ register.tag('%(tag_name)s', %(classname)s.process_tag)
 """
     return subclass % locals()
 
+
 def main():
     import sys
     sys.argv = sys.argv[1:]
     try:
-        print subclass_templatetag(sys.argv[0], sys.argv[1], sys.argv[2:])
-    except:
-        print __doc__
+        print(subclass_templatetag(sys.argv[0], sys.argv[1], sys.argv[2:]))
+    except Exception:
+        print(__doc__)
+
 
 if __name__ == '__main__':
     main()
