@@ -7,32 +7,35 @@ from django.shortcuts import render_to_response
 from django.utils.http import urlquote
 from djangohelpers.permissions import LazyPermissions
 
+
 class HttpDeleteMiddleware(object):
     def process_request(self, request):
-        if not request.GET.has_key('delete'):
+        if 'delete' not in request.GET:
             return None
         if request.method == "GET":
             return render_to_response('djangohelpers/confirm_delete.html')
         if request.method == "POST":
             request.method = "DELETE"
 
+
 def path_matches(current_path, paths_to_match):
     for exempt_path in paths_to_match:
         try:
             if current_path.startswith(exempt_path):
                 return True
-        except TypeError: # it wasn't a string object .. must be a regex
+        except TypeError:  # it wasn't a string object .. must be a regex
             if exempt_path.match(current_path):
                 return True
 
     return False
+
 
 class AuthRequirementMiddleware(object):
     def process_request(self, request):
         if request.user.is_authenticated():
             return None
 
-        path = urlquote(request.get_full_path())           
+        path = urlquote(request.get_full_path())
 
         if path_matches(path, getattr(settings, 'ANONYMOUS_PATHS', [])):
             return None
@@ -41,6 +44,7 @@ class AuthRequirementMiddleware(object):
                 settings.LOGIN_URL,
                 REDIRECT_FIELD_NAME,
                 path))
+
 
 class GroupRequirementMiddleware(object):
     def process_request(self, request):
@@ -65,12 +69,12 @@ class GroupRequirementMiddleware(object):
                     REDIRECT_FIELD_NAME,
                     path))
 
-
         location = getattr(settings, 'GROUP_REQUIREMENTS_REDIRECT', None)
         if location:
             return HttpResponseRedirect(location)
 
         return HttpResponseForbidden("Insufficient priviledges")
+
 
 class PermissionsMiddleware(object):
     def process_request(self, request):

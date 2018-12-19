@@ -1,8 +1,8 @@
 from django import template
 
+
 def chunk(chunkable, size=2):
     chunkable = list(chunkable)
-    counter = 0
     chunked = []
     sublist = []
     while len(chunkable):
@@ -11,6 +11,7 @@ def chunk(chunkable, size=2):
         chunked.append(sublist)
         sublist = []
     return chunked
+
 
 class TemplateTagNode(template.Node):
 
@@ -36,21 +37,21 @@ Syntax: %s """ + parts + """ as <varname>"""
         words = words[:-2]
 
         if _as != 'as':
-            raise template.TemplateSyntaxError, \
-                cls.error_msg() % (token.contents, tag_name)
-        
+            raise template.TemplateSyntaxError(
+                cls.error_msg() % (token.contents, tag_name))
+
         words = chunk(words)
         if len(words) != len(cls.noun_for):
-            raise template.TemplateSyntaxError, \
-                cls.error_msg() % (token.contents, tag_name)
-    
+            raise template.TemplateSyntaxError(
+                cls.error_msg() % (token.contents, tag_name))
+
         kw = {}
         for phrase in words:
             preposition, noun = phrase
             if preposition not in cls.noun_for \
                     or cls.noun_for[preposition] in kw:
-                raise template.TemplateSyntaxError, \
-                    cls.error_msg() % (token.contents, tag_name)
+                raise template.TemplateSyntaxError(
+                    cls.error_msg() % (token.contents, tag_name))
             kw[cls.noun_for[preposition]] = noun
 
         return cls(varname, **kw)
@@ -68,6 +69,6 @@ Syntax: %s """ + parts + """ as <varname>"""
 
         context[self.varname] = self.execute_query(**vars)
         return ''
-    
+
     def execute_query(self, **kw):
         return ''

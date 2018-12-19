@@ -1,7 +1,9 @@
 from django import template
 from djangohelpers.templatetags import TemplateTagNode
+from six import string_types
 
 register = template.Library()
+
 
 class ReplaceValue(TemplateTagNode):
     """
@@ -16,10 +18,15 @@ class ReplaceValue(TemplateTagNode):
       >> new_dict
       {'a': 1, 'c': 3}
     """
-    noun_for = {"of":"key", "in":"items", "with":"value"}
+    noun_for = {
+        "of": "key",
+        "in": "items",
+        "with": "value"
+    }
 
     def __init__(self, varname, key, items, value):
-        TemplateTagNode.__init__(self, varname, key=key, items=items, value=value)
+        TemplateTagNode.__init__(self, varname, key=key,
+                                 items=items, value=value)
 
     def execute_query(self, key, items, value):
         new = dict(items)
@@ -28,7 +35,10 @@ class ReplaceValue(TemplateTagNode):
         else:
             new[key] = value
         return new
+
+
 register.tag('replace_value', ReplaceValue.process_tag)
+
 
 def qsify(_dict):
     """
@@ -47,14 +57,20 @@ def qsify(_dict):
                 qs += '%s=%s&' % (key, v)
         else:
             qs += '%s=%s&' % (key, value)
-    qs=qs.rstrip("&")
+    qs = qs.rstrip("&")
     return qs
+
+
 register.filter('qsify', qsify)
+
 
 def split(text):
     """ sometext|split """
     return text.split()
+
+
 register.filter('split', split)
+
 
 def getitem(dict, item):
     """ my_dict|getitem:'b' """
@@ -62,7 +78,10 @@ def getitem(dict, item):
         return dict.get(item)
     except KeyError:
         return ''
+
+
 register.filter('getitem', getitem)
+
 
 def _getattr(obj, attr):
     """ my_obj|getattr:'b' """
@@ -70,15 +89,24 @@ def _getattr(obj, attr):
         return getattr(obj, attr) or ''
     except AttributeError:
         return ''
+
+
 register.filter('getattr', _getattr)
+
 
 def lessthan(a, b):
     return a < b
+
+
 register.filter('lessthan', lessthan)
+
 
 def greaterthan(a, b):
     return a > b
+
+
 register.filter('greaterthan', greaterthan)
+
 
 def to_json(a):
     import json
@@ -86,23 +114,29 @@ def to_json(a):
         return json.dumps(a)
     except (ValueError, TypeError):
         return ''
+
+
 register.filter('to_json', to_json)
+
 
 def ensure_list(a):
     if a is None:
         return []
-    if isinstance(a, basestring):
+    if isinstance(a, string_types):
         return [a]
     if not hasattr(a, "__getitem__") and not hasattr(a, "__iter__"):
         return [a]
     return a
+
+
 register.filter('ensure_list', ensure_list)
+
 
 @register.filter
 def joined_by(list, string):
     return string.join(str(i) for i in list)
 
+
 @register.filter
 def add_numbers(a, b):
     return a + b
-
