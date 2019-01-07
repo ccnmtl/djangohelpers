@@ -20,7 +20,7 @@ class TemplateTagNode(template.Node):
     @classmethod
     def error_msg(cls):
         parts = []
-        for preposition, noun in cls.noun_for.items():
+        for preposition, noun in list(cls.noun_for.items()):
             parts.append("%s <%s>" % (preposition, noun))
         parts = ' '.join(parts)
 
@@ -59,12 +59,12 @@ Syntax: %s """ + parts + """ as <varname>"""
     def __init__(self, varname, **kw):
         self.varname = varname
         self.vars = {}
-        for key, var in kw.items():
+        for key, var in list(kw.items()):
             self.vars[key] = template.Variable(var)
 
     def render(self, context):
         vars = dict(self.vars)
-        for key, var in vars.items():
+        for key, var in list(vars.items()):
             vars[key] = var.resolve(context)
 
         context[self.varname] = self.execute_query(**vars)

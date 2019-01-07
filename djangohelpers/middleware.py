@@ -51,7 +51,7 @@ class GroupRequirementMiddleware(object):
         path = urlquote(request.get_full_path())
 
         permission_locks = getattr(settings, 'GROUP_REQUIREMENTS_PER_PATH', {})
-        first_match = path_matches(path, permission_locks.keys())
+        first_match = path_matches(path, list(permission_locks.keys()))
 
         if not first_match:
             return None
