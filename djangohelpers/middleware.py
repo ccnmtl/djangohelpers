@@ -33,7 +33,7 @@ def path_matches(current_path, paths_to_match):
 
 class AuthRequirementMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return None
 
         path = urlquote(request.get_full_path())
@@ -65,7 +65,7 @@ class GroupRequirementMiddleware(MiddlewareMixin):
         if required_permission in request.user.groups.all():
             return None
 
-        if request.user.is_anonymous():
+        if request.user.is_anonymous:
             return HttpResponseRedirect('%s?%s=%s' % (
                     settings.LOGIN_URL,
                     REDIRECT_FIELD_NAME,
