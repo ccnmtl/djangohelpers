@@ -6,9 +6,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.utils.http import urlquote
 from djangohelpers.permissions import LazyPermissions
+from django.utils.deprecation import MiddlewareMixin
 
 
-class HttpDeleteMiddleware(object):
+class HttpDeleteMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if 'delete' not in request.GET:
             return None
@@ -30,7 +31,7 @@ def path_matches(current_path, paths_to_match):
     return False
 
 
-class AuthRequirementMiddleware(object):
+class AuthRequirementMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if request.user.is_authenticated():
             return None
@@ -46,7 +47,7 @@ class AuthRequirementMiddleware(object):
                 path))
 
 
-class GroupRequirementMiddleware(object):
+class GroupRequirementMiddleware(MiddlewareMixin):
     def process_request(self, request):
         path = urlquote(request.get_full_path())
 
@@ -58,7 +59,8 @@ class GroupRequirementMiddleware(object):
 
         required_permission = permission_locks[first_match]
 
-        required_permission = Group.objects.get(name=required_permission)
+        required_permission = \
+            Group.MiddlewareMixins.get(name=required_permission)
 
         if required_permission in request.user.groups.all():
             return None
@@ -76,6 +78,6 @@ class GroupRequirementMiddleware(object):
         return HttpResponseForbidden("Insufficient priviledges")
 
 
-class PermissionsMiddleware(object):
+class PermissionsMiddleware(MiddlewareMixin):
     def process_request(self, request):
         setattr(request, 'PERMISSIONS', LazyPermissions(request))
