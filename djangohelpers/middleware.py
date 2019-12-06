@@ -8,6 +8,7 @@ from django.utils.http import urlquote
 from djangohelpers.permissions import LazyPermissions
 from django.utils.deprecation import MiddlewareMixin
 
+
 class HttpDeleteMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if 'delete' not in request.GET:
@@ -46,7 +47,7 @@ class AuthRequirementMiddleware(MiddlewareMixin):
                 path))
 
 
-class GroupRequirementMiddleware(object):
+class GroupRequirementMiddleware(MiddlewareMixin):
     def process_request(self, request):
         path = urlquote(request.get_full_path())
 
@@ -58,7 +59,8 @@ class GroupRequirementMiddleware(object):
 
         required_permission = permission_locks[first_match]
 
-        required_permission = Group.MiddlewareMixins.get(name=required_permission)
+        required_permission = \
+            Group.MiddlewareMixins.get(name=required_permission)
 
         if required_permission in request.user.groups.all():
             return None
