@@ -1,4 +1,10 @@
+0.21  (2019-12-06)
+==================
+
+* Update middleware signatures
+
 0.20  (2018-12-19)
 ==================
 
 * Added Python 3 support and Travis testing
+
