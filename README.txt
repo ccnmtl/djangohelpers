@@ -1,3 +1,4 @@
+[![Actions Status](https://github.com/ccnmtl/djangohelpers/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/djangohelpers/actions)
 Contents:
 
 console scripts
