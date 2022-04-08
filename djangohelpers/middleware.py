@@ -15,7 +15,7 @@ class HttpDeleteMiddleware(MiddlewareMixin):
             return None
         if request.method == "GET":
             return render(request, 'djangohelpers/confirm_delete.html',
-                context=None)
+                          context=None)
         if request.method == "POST":
             request.method = "DELETE"
 
