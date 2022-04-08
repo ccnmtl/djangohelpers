@@ -3,7 +3,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import Group
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.utils.http import urlquote
 from djangohelpers.permissions import LazyPermissions
 from django.utils.deprecation import MiddlewareMixin
@@ -14,7 +14,8 @@ class HttpDeleteMiddleware(MiddlewareMixin):
         if 'delete' not in request.GET:
             return None
         if request.method == "GET":
-            return render_to_response('djangohelpers/confirm_delete.html')
+            return render(request, 'djangohelpers/confirm_delete.html',
+                context=None)
         if request.method == "POST":
             request.method = "DELETE"
 
