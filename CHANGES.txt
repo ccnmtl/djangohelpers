@@ -1,3 +1,8 @@
+0.24
+==================
+
+* Migrated from Django's urlquote to quote
+
 0.23  (2022-04-08)
 ==================
 

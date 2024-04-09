@@ -1,10 +1,10 @@
+from urllib.parse import quote
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import Group
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.utils.http import urlquote
 from djangohelpers.permissions import LazyPermissions
 from django.utils.deprecation import MiddlewareMixin
 
@@ -37,7 +37,7 @@ class AuthRequirementMiddleware(MiddlewareMixin):
         if request.user.is_authenticated:
             return None
 
-        path = urlquote(request.get_full_path())
+        path = quote(request.get_full_path())
 
         if path_matches(path, getattr(settings, 'ANONYMOUS_PATHS', [])):
             return None
@@ -50,7 +50,7 @@ class AuthRequirementMiddleware(MiddlewareMixin):
 
 class GroupRequirementMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        path = urlquote(request.get_full_path())
+        path = quote(request.get_full_path())
 
         permission_locks = getattr(settings, 'GROUP_REQUIREMENTS_PER_PATH', {})
         first_match = path_matches(path, list(permission_locks.keys()))
