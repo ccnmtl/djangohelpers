@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.23'
+version = '0.24'
 
 long_description = open('README.txt').read()
 
@@ -11,7 +11,7 @@ setup(name='djangohelpers',
       classifiers=[],
       keywords='',
       author='Ethan Jucovy',
-      author_email='ejucovy@gmail.com',
+      author_email='ctl-dev@columbia.edu',
       url='https://github.com/ccnmtl/djangohelpers',
       license='BSD',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),

@@ -2,10 +2,10 @@ PY_DIRS=djangohelpers
 VE ?= ./ve
 SYS_PYTHON ?= python3
 PY_SENTINAL ?= $(VE)/sentinal
-PIP_VERSION ?= 21.0.1
+PIP_VERSION ?= 24.0
 MAX_COMPLEXITY ?= 15
 PY_DIRS ?= $(APP)
-DJANGO ?= "Django==2.2.13"
+DJANGO ?= "Django==4.2.11"
 
 FLAKE8 ?= $(VE)/bin/flake8
 PIP ?= $(VE)/bin/pip
