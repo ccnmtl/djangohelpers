@@ -14,7 +14,7 @@ setup(name='djangohelpers',
       author_email='ctl-dev@columbia.edu',
       url='https://github.com/ccnmtl/djangohelpers',
       license='BSD',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      packages=find_packages(include=['djangohelpers', 'djangohelpers.*']),
       include_package_data=True,
       zip_safe=False,
       install_requires=[
