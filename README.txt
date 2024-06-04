@@ -1,4 +1,18 @@
 [![Actions Status](https://github.com/ccnmtl/djangohelpers/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/djangohelpers/actions)
+
+Installation
+============
+
+Add djangohelpers to your INSTALLED_APPS setting:
+
+```
+INSTALLED_APPS += [
+    ...
+    'djangohelpers',
+    ...
+]
+```
+
 Contents:
 
 console scripts
